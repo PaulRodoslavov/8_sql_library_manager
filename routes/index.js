@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+
+/* GET books page. */
 router.get('/', (req, res, next) => {
-   res.send('HELLO WORLD from Paul');
-})
+   res.redirect('/books');
+});
+
 module.exports = router;
