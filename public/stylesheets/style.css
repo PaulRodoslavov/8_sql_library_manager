@@ -105,9 +105,48 @@ h1 {
    display: flex;
    justify-content: space-around;
 }
-/* #search {
-   margin-left: 20%;
-} */
+.hide {
+   display: none;
+}
+.active {
+   display: table-row;
+}
 #button {
    margin: 0;
+}
+
+.pagination {
+   display: flex;
+   justify-content: center;
+}
+.pagination ul {
+   display: flex;
+   width: 100px;
+   justify-content: space-around;
+}
+
+.pagination ul li {
+   border: 1px solid #019875;
+   border-radius: 5px;
+
+   margin-left: 5px;
+   cursor: pointer;
+   transition: 0.4s;
+}
+.pagination ul li:hover {
+   background: #019875;
+   color: white!important;
+}
+.pagination ul li:hover>a  {
+   color: white!important;
+}
+.pagination a  {
+   padding: 5px 10px;
+}
+
+.activeLink {
+   background: #019875;
+}
+.activeLink > a{
+   color: white!important;
 }

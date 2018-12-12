@@ -8,41 +8,121 @@ header.innerHTML += `<div id="search">
                      `;
 
 // DOM variables
-const rows = [...document.querySelectorAll('tr')];
+const body = document.querySelector('body');
+const rows = [...document.querySelector('tbody').querySelectorAll('tr')];
+const table = document.querySelector('table');
 const btnSubmit = document.querySelector('#button');
 const placeholder = document.querySelector('.placeholder');
-
-// btnSubmit.addEventListener('click', el => el.preventDefault());
-
-placeholder.addEventListener('input', el => {
-
-   const valInput =  el.target.value;
-   rows.map(el => {
-      let arrTAGY = [];
-      const td = [...el.querySelectorAll('td')]
-      console.log(el)
-      td.map(el => {
-         if (el.children.length > 0) {
-            let textTitle = el.children[0].innerHTML;
-            arrTAGY.push(el.innerText);
-         };
-
-         arrTAGY.push(el.innerText);
+let trDisActv = rows;
 
 
-         if (valInput != " " && valInput.length > 0 && el.innerText.match(valInput)) {
-            // console.log(el.innerText);
-            // console.log(el.parentNode)
-            // el.parentNode.style.display = "table-row";
-         }
-          else {
-            el.parentNode.style.display = "none";
-            // console.log(el.innerText);
 
-                  // console.log(el.parentNode)
-         }
-
-      })
-      console.log(arrTAGY)
-   });
+rows.map(el => {
+   el.className = 'hide';
 });
+addPagination();
+// keyboard event to search the match in table
+placeholder.addEventListener('input', el => {
+   const valInput =  el.target.value.toUpperCase();
+   if (hasWhiteSpace(valInput)) {
+      rows.map(el => {
+         const arrTAGY = [];
+         let stringTAGY;
+         const td = [...el.querySelectorAll('td')]
+         td.map(el => {
+            arrTAGY.push(el.innerText);
+            stringTAGY = arrTAGY.join().toUpperCase();
+
+               if(stringTAGY.match(valInput)) {
+                  el.parentNode.className = 'active';
+               }
+                else {
+                  el.parentNode.className = 'hide';
+               }
+         });
+      });
+   }
+   const trDisNone = document.querySelectorAll('.hide');
+   trDisActv = [...document.querySelectorAll('.active')];
+      // adds message about no match
+   if(trDisNone.length === rows.length){
+      if (document.querySelector('h3')) {
+         document.querySelector('h3').remove();
+      }
+      const errorEll = document.createElement('h3');
+      errorEll.className = 'errorEll';
+      errorEll.innerHTML = 'Opps, we do not have that book.';
+      table.appendChild(errorEll);
+   } else {
+      if(document.querySelector('.errorEll')){
+         document.querySelector('.errorEll').remove()
+      }
+   }
+
+
+
+
+
+addPagination();
+
+});
+
+
+function addPagination () {
+   hideRows (1);
+   if (document.querySelector('.pagination')) {
+      document.querySelector('.pagination').remove();
+   }
+   const pagination = document.createElement('DIV');
+   const navigation = document.createElement('UL');
+   const tbody = document.querySelector('tbody');
+   pagination.className = 'pagination';
+   const pageNum = Math.ceil(trDisActv.length / 5);
+   for (let i = 1; i <= pageNum; i++) {
+      let link = `<li><a href="#">${i}</a></li>`;
+      navigation.innerHTML += link;
+   }
+   pagination.appendChild(navigation);
+   body.appendChild(pagination);
+   if (document.querySelector('.pagination ul').firstChild) {
+      document.querySelector('.pagination ul').firstChild.className = ('activeLink');
+   }
+}
+
+
+
+document.querySelector('.pagination ul').addEventListener('click', el => {
+   [...document.querySelectorAll('.activeLink')].map(el => el.className = '');
+   if (el.target.tagName === "LI" || el.target.tagName === "A") {
+
+el.target.parentNode.className = ('activeLink');
+hideRows(el.target.innerText);
+   }
+
+});
+
+function hideRows (index) {
+   const rows = [...document.querySelector('tbody').querySelectorAll('tr')];
+   rows.map(el => {
+      el.className = 'hide';
+   });
+   for (let i = (index * 5 - 5); i < (index * 5); i++) {
+      // console.log(i)
+      if (trDisActv[i]) {
+         trDisActv[i].className = 'active';
+      }
+   }
+
+}
+
+
+
+// function to check blankspace
+
+function hasWhiteSpace(s){
+     reWhiteSpace = new RegExp(/^\s+$/);
+     if (reWhiteSpace.test(s)) {
+          return false;
+     }
+     return true;
+}
