@@ -16,11 +16,20 @@ const placeholder = document.querySelector('.placeholder');
 let trDisActv = rows;
 
 
-
+// hides all rows of table
 rows.map(el => {
    el.className = 'hide';
 });
+
+
+// adds pagination links
 addPagination();
+
+
+//---------------------------------
+//            EVENTS
+//--------------------------------
+
 // keyboard event to search the match in table
 placeholder.addEventListener('input', el => {
    const valInput =  el.target.value.toUpperCase();
@@ -58,16 +67,29 @@ placeholder.addEventListener('input', el => {
          document.querySelector('.errorEll').remove()
       }
    }
-
-
-
-
-
 addPagination();
+clickLinks ();
+}); //end keyboard event
 
-});
+   // click event to show active pagination links
+function clickLinks () {
+   document.querySelector('.pagination ul').addEventListener('click', el => {
+      [...document.querySelectorAll('.activeLink')].map(el => el.className = '');
+      if (el.target.tagName === "A") {
+         console.log(el.target.tagName)
+   el.target.parentNode.className = ('activeLink');
+   hideRows(el.target.innerText);
+      }
+   });
+}
+clickLinks ();
+
+//--------------------------------
+//            FUNCTIONS
+//--------------------------------
 
 
+// function to create pagination links
 function addPagination () {
    hideRows (1);
    if (document.querySelector('.pagination')) {
@@ -89,18 +111,7 @@ function addPagination () {
    }
 }
 
-
-
-document.querySelector('.pagination ul').addEventListener('click', el => {
-   [...document.querySelectorAll('.activeLink')].map(el => el.className = '');
-   if (el.target.tagName === "LI" || el.target.tagName === "A") {
-
-el.target.parentNode.className = ('activeLink');
-hideRows(el.target.innerText);
-   }
-
-});
-
+//function to show only 5 rows of table
 function hideRows (index) {
    const rows = [...document.querySelector('tbody').querySelectorAll('tr')];
    rows.map(el => {
@@ -112,10 +123,7 @@ function hideRows (index) {
          trDisActv[i].className = 'active';
       }
    }
-
 }
-
-
 
 // function to check blankspace
 
