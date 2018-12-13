@@ -7,17 +7,10 @@
     "start": "nodemon ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PaulRodoslavov/8_sql_library_manager.git"
-  },
   "keywords": [],
-  "author": "",
+  "author": "Paul Rodoslavov",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PaulRodoslavov/8_sql_library_manager/issues"
-  },
-  "homepage": "https://github.com/PaulRodoslavov/8_sql_library_manager#readme",
+
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
